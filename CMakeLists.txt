@@ -25,13 +25,12 @@ include(cmake/CPM.cmake)
 
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
-
+CPMAddPackage("gh:oatpp/oatpp#1.3.0-latest")
 CPMAddPackage(
-  NAME userver
-  GIT_TAG v2.2
-  GITHUB_REPOSITORY userver-framework/userver
-  OPTIONS # "USERVER_DOWNLOAD_PACKAGES OFF" "USERVER_FEATURE_UTEST OFF" "USERVER_INSTALL ON"
-          "USERVER_FEATURE_STACKTRACE OFF"
+  NAME fmt
+  GIT_TAG 11.0.2
+  GITHUB_REPOSITORY fmtlib/fmt
+  OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
 # ---- Add source files ----
@@ -55,7 +54,11 @@ set_target_properties(
 )
 
 # Link dependencies
-target_link_libraries(${PROJECT_NAME} PUBLIC userver::core)
+target_link_libraries(
+  ${PROJECT_NAME}
+  PUBLIC oatpp
+  PUBLIC fmt::fmt
+)
 
 target_include_directories(
   ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -69,7 +72,13 @@ target_include_directories(
 # header paths
 string(TOLOWER ${PROJECT_NAME}/version.h VERSION_HEADER_LOCATION)
 
-# packageProject( NAME ${PROJECT_NAME} VERSION ${PROJECT_VERSION} NAMESPACE ${PROJECT_NAME}
-# BINARY_DIR ${PROJECT_BINARY_DIR} INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include INCLUDE_DESTINATION
-# include/${PROJECT_NAME}-${PROJECT_VERSION} VERSION_HEADER "${VERSION_HEADER_LOCATION}"
-# COMPATIBILITY SameMajorVersion )
+packageProject(
+  NAME ${PROJECT_NAME}
+  VERSION ${PROJECT_VERSION}
+  NAMESPACE ${PROJECT_NAME}
+  BINARY_DIR ${PROJECT_BINARY_DIR}
+  INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
+  INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
+  VERSION_HEADER "${VERSION_HEADER_LOCATION}"
+  COMPATIBILITY SameMajorVersion
+)

@@ -1,34 +1,29 @@
 #pragma once
 
+#include <memory>
+#include <oatpp/web/server/HttpRequestHandler.hpp>
 #include <string_view>
-#include <userver/components/component_list.hpp>
-#include <userver/server/handlers/http_handler_base.hpp>
 
-#include "userver/server/http/http_request.hpp"
-#include "userver/server/request/request_context.hpp"
+#include "beanbackend/greeter.h"
 
 namespace greeter
 {
   /**
-   * Exposes the '/greet' endpoint.
+   * Handles the "/greet" endpoint.
    */
-  class GreeterHandler final : public userver::server::handlers::HttpHandlerBase
+  class GreeterHandler : public oatpp::web::server::HttpRequestHandler
   {
+    std::shared_ptr<OutgoingResponse> handle(const std::shared_ptr<IncomingRequest>& request) override
+    {
+      // TODO: This should NOT be inside the header file!
+      auto greeter = Greeter{ request->getQueryParameter("name").getValue("noname") };
+      return ResponseFactory::createResponse(Status::CODE_200, greeter.greet(LanguageCode::FR));
+    }
+
    public:
     /**
-     * Name of the handler.
+     * The endpoint.
      */
-    static constexpr std::string_view kName = "handler-greeter";
-
-    using userver::server::handlers::HttpHandlerBase::HttpHandlerBase;
-
-    /**
-     * The handler.
-     * @param request The request
-     * @return The response
-     */
-    std::string HandleRequestThrow(
-        const userver::server::http::HttpRequest &request,
-        userver::server::request::RequestContext & /* request_context */) const override;
+    static constexpr std::string ENDPOINT{ "/greet" };
   };
-};  // namespace greeter
+}  // namespace greeter

@@ -36,7 +36,7 @@ include(../cmake/tools.static-analyzers.cmake)
 add_executable(${PROJECT_NAME} ${sources})
 include(../cmake/tools.static-analyzers.disable.cmake)
 
-target_link_libraries(${PROJECT_NAME} doctest::doctest BeanBackend::BeanBackend)
+target_link_libraries(${PROJECT_NAME} doctest::doctest BeanBackend)
 set_target_properties(
   ${PROJECT_NAME} PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF
 )
@@ -62,4 +62,4 @@ doctest_discover_tests(${PROJECT_NAME})
 
 # ---- code coverage ----
 target_code_coverage(BeanBackend)
-target_code_coverage(${PROJECT_NAME} EXCLUDE .*_dep.* .*test/source.*)
+target_code_coverage(${PROJECT_NAME} EXCLUDE .*_dep.* .*test/source.* .*cpm-cache.*)

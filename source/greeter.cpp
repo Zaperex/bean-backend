@@ -1,5 +1,4 @@
-#include <beanbackend/greeter.h>
-
+#include <beanbackend/greeter.hpp>
 #include <string>   // for basic_string, string
 #include <utility>  // for move
 

@@ -1,10 +1,8 @@
 #pragma once
 
+#include <beanbackend/greeter.hpp>
 #include <memory>
 #include <oatpp/web/server/HttpRequestHandler.hpp>
-#include <string_view>
-
-#include "beanbackend/greeter.h"
 
 namespace greeter
 {
@@ -24,6 +22,6 @@ namespace greeter
     /**
      * The endpoint.
      */
-    static constexpr std::string ENDPOINT{ "/greet" };
+    static constexpr std::string PATH_PATTERN{ "/greet" };
   };
 }  // namespace greeter

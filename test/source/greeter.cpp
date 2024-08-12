@@ -1,8 +1,7 @@
-#include <beanbackend/greeter.h>  // for Greeter, LanguageCode
-#include <doctest/doctest.h>      // for ResultBuilder, CHECK, TestCase, TEST_CASE
+#include <doctest/doctest.h>  // for ResultBuilder, CHECK, TestCase, TEST_CASE
 
-#include <string>       // for basic_string, operator==, allocator
-#include <string_view>  // for operator==, string_view
+#include <beanbackend/greeter.hpp>  // for Greeter, LanguageCode
+#include <string>                   // for basic_string, operator==, allocator
 
 TEST_CASE("Greeter")
 {

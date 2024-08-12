@@ -30,6 +30,7 @@
     venv.requirements = ''
       pyyaml
       cmake_format==0.6.11
+      cmake-language-server
       Jinja2
       Pygments
       python-lsp-server
